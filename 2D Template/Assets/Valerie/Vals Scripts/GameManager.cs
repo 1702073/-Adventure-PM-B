@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private List<Transform> pieces;
     private int emptyLoaction;
-    private int size;
+    public int size;
     private bool shuffling = false;
 
     // Create the game setup with x size pieces.
@@ -59,8 +60,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         pieces = new List<Transform>();
-        size = 5;
         CreateGamePieces(0.01f);
+        Shuffle();
     }
 
     // Update is called once per frame
@@ -70,7 +71,7 @@ public class GameManager : MonoBehaviour
         if (!shuffling && CheckCompletion())
         {
             shuffling = true;
-            StartCoroutine(WaitShuffle(0.5f));
+            SceneManager.LoadScene("Sample Scene");
         }
         // On click send out ray to see if we click a piece.
         if (Input.GetMouseButtonDown(0))
