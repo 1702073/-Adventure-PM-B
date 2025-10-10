@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Valerie/Sample Scene.unity
+    path: Assets/Valerie/Vals Scenes/Sample Scene.unity
     guid: c47527400d7eb65478489aa0c32db4d8
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
