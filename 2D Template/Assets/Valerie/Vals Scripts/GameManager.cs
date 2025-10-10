@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         pieces = new List<Transform>();
-        size = 3;
+        size = 5;
         CreateGamePieces(0.01f);
     }
 
