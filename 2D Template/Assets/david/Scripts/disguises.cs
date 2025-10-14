@@ -17,19 +17,19 @@ public class disguises : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && !isDisguised)
+        if (Input.GetKeyDown(KeyCode.G) && !isDisguised)
         {
             disguise.SetActive(true);
             isDisguised = true;
-            Debug.Log("Tab key was pressed.");
         }
+
         else
         {
-            if (Input.GetKeyDown(KeyCode.Tab) && isDisguised)
+            if (Input.GetKeyDown(KeyCode.G) && isDisguised)
             {
                 disguise.SetActive(false);
                 isDisguised = false;
-                Debug.Log("Tab key was pressed.");
+
             }
         }
         
