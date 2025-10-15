@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         if (!shuffling && CheckCompletion())
         {
             shuffling = true;
-            SceneManager.LoadScene("Sample Scene");
+            //SceneManager.LoadScene("Sample Scene");
         }
         // On click send out ray to see if we click a piece.
         if (Input.GetMouseButtonDown(0))
