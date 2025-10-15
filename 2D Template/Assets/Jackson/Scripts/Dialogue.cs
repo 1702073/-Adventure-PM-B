@@ -1,7 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 using System;
 using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 [Serializable]
 public struct DialoguePiece 
@@ -18,31 +20,45 @@ public class Dialogue : MonoBehaviour
 
     public TMPro.TMP_Text dialogueName;
     public TMPro.TMP_Text dialogueText;
+    public UnityEvent onDialogueEnd; 
 
     private int dialogueIndex;
+    private bool isDialogueRunning;
+
+    private static Dialogue currentDialogue; 
 
     public void StartDialogue()
     {
+        currentDialogue = this;
+
+        StopAllCoroutines();
         gameObject.SetActive(true);
+        dialogueIndex = 0;
+
         StartCoroutine(WriteDialoguePiece(dialogue[0]));
+
     }
 
     public void StopDialogue()
     {
-      gameObject.SetActive(false);
+      onDialogueEnd?.Invoke();
+        gameObject.SetActive(false);
     }
 
-    public void NextDialogueOrStop()
+    public void NextDialogueOrStop(InputAction.CallbackContext ctx)
     {
-        ++dialogueIndex;
+       if (ctx.ReadValue<float>() == 0 || currentDialogue.isDialogueRunning) 
+           return;
 
-        if (dialogueIndex >= dialogue.Count)
+        ++currentDialogue.dialogueIndex;
+
+        if (currentDialogue.dialogueIndex >= currentDialogue.dialogue.Count)
         {
-            StopDialogue();
+            currentDialogue.StopDialogue();
             return;
         }
 
-        StartCoroutine(WriteDialoguePiece(dialogue[dialogueIndex]));
+        currentDialogue.StartCoroutine(currentDialogue.WriteDialoguePiece(currentDialogue.dialogue[currentDialogue.dialogueIndex]));
     }
 
     public IEnumerator WriteDialoguePiece(DialoguePiece dialogue)
@@ -50,11 +66,15 @@ public class Dialogue : MonoBehaviour
       dialogueName.SetText(dialogue.name);
       dialogueText.SetText("");
 
+      isDialogueRunning = true;
+
         for (int i = 0; i < dialogue.dialogue.Length; ++i)
         {
          dialogueText.text += dialogue.dialogue[i];
          yield return new WaitForSeconds(textSpeed);
         } 
+
+        isDialogueRunning = false;
     }
 
 }
