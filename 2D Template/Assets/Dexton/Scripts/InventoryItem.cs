@@ -4,12 +4,29 @@ using UnityEngine.EventSystems;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public Item item;
+
     [Header("UI")]
+
     public Image image;
+    [HideInInspector]public Transform parentAfterDrag;
+
+    private void Start()
+    {
+        initialiseItem(item);
+    }
+
+    public void initialiseItem(Item newItem)
+    {
+        item = newItem;
+        image.sprite = item.image;
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         image.raycastTarget = false;
+        parentAfterDrag = transform.parent;
+        transform.SetParent(transform.root);
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -18,7 +35,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //image    https://www.youtube.com/watch?v=oJAE6CbsQQA&t=13s 6:01
+        image.raycastTarget = true;
+        transform.SetParent(parentAfterDrag);
     }
 
 }
